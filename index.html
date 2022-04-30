@@ -1,21 +1,173 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="./style.css" />
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<script type="text/javascript" src="./toggleDiv.js"></script>
+		<script type="text/javascript" src="./formValidation.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 	</head>
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+		<header id="menu">
+			<nav>
+			  <h3 class="toolBar" style="width: 99%;">
+				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('welcome').id);">Welcome | </a>
+				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('signup').id);">Sign up | </a>
+				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('login').id);">Login | </a>
+				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('settings').id);">Settings | </a>
+				<a href="javascript:;" id="myBtn">About | </a>
+				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('game').id);">Game </a>
+			  </h3>
+			</nav>
+		</header>
+
+		<!-- welcom page -->
+		<div id="welcome" style="display:block">
+			<div style="width: 50%;">
+				<button onclick="toggleDiv(document.getElementById('signup').id);">
+					Sign up
+				</button>
+				<button onclick="toggleDiv(document.getElementById('login').id);">
+					login
+				</button>
+			</div>
 		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+
+		<!-- sign up page -->
+		<div id="signup" style="display:none">
+			<form action="" method="post" id="registration">
+				<div class="container">
+					<h1>Sign Up</h1>
+					<p>Please fill in this form to create an account.</p>
+					<hr>
+					<label for="user"><b>User: </b></label>
+					<input type="text" placeholder="Enter User Name" name="user" id="user">
+					<br/>
+					<label for="psw"><b>Password: </b></label>
+					<input type="password" placeholder="Enter Password" name="psw" id="psw">
+					<br/>
+					<label for="fName"><b>Full Name: </b></label>
+					<input type="text" placeholder="Enter Full Name" name="fName" id="fName">
+					<br/>
+					<label for="email"><b>Email: </b></label>
+					<input type="text" placeholder="Enter Email" name="email" id="email">
+					<br/>
+					<label for="birthday"><b>Birthday: </b></label>
+  					<input type="date" id="birthday" name="birthday">
+					<br/>
+					<div class="clearfix">
+						<button type="submit">Submit</button>
+        				<button type="reset">Reset</button>
+					</div>
+				</div>
+			  </form>
 		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
+
+		<!-- login page -->
+		<div id="login" style="display:none">
+			<form action="" method="post">
+				<div class="container">
+					<label for="user"><b>Username: </b></label>
+				  	<input type="text" placeholder="Enter User Name" name="user" id="user">
+					<br/>
+				  	<label for="psw"><b>Password: </b></label>
+				  	<input type="password" placeholder="Enter Password" name="psw" id="psw">
+					<br/> 
+				</div>
+				<div class="container" style="background-color:#f1f1f1">
+					<button type="submit">Login</button>
+					<button type="reset">Reset</button>
+				</div>
+			  </form>
 		</div>
+
+		<!-- settings page -->
+		<div id="settings" style="display:none" >
+			<div>
+				<label><b>Up: </b></label>
+				<input type="text" placeholder="Enter Up Button" name="up" id="up" onkeypress="upUpdate(event)">
+				<label><b>Down: </b></label>
+				<input type="text" placeholder="Enter Down Button" name="down" id="down" onkeypress="downUpdate(event)">
+				<label><b>Left: </b></label>
+				<input type="text" placeholder="Enter Left Button" name="left" id="left" onkeypress="leftUpdate(event)">
+				<label><b>Right: </b></label>
+				<input type="text" placeholder="Enter Right Button" name="right" id="right" onkeypress="rightUpdate(event)">
+			</div>
+			<br/>
+			<div>
+				<label for="vol"><b>Choose number of balls (between 50 and 90): </b></label>
+				<input type="range" min="50" max="90" placeholder="Enter Number of Balls" name="ball" id="ball" oninput="this.nextElementSibling.value = this.value">
+				<output>70</output>
+			</div>
+			<div>
+				<label for="vol"><b>Choose number of monsters (between 1 and 4): </b></label>
+				<input type="range" min="1" max="4" placeholder="Enter Number of Monsters" name="monster" id="monster" oninput="this.nextElementSibling.value = this.value">
+				<output>3</output>
+			</div>
+			<div>
+				<label for="colorpicker">Pick First Color(5 points): </label>
+   				<input type="color" id="fivecolorpicker" value="#000000">
+			</div>
+			<div>
+				<label for="colorpicker">Pick Second Color(15 points): </label>
+   				<input type="color" id="fifteencolorpicker" value="#000000">
+			</div>
+			<div>
+				<label for="colorpicker">Pick Third Color(25 points): </label>
+   				<input type="color" id="twentyfivecolorpicker" value="#000000">
+			</div>
+			<div>
+				<button onclick="returnText()">Change Settings</button>
+			</div>
+		</div>
+
+		<!-- about page -->
+		<div id="about" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<p>Some text in the Modal..</p>
+			</div>
+		</div>
+
+		<div id="game" style="display:none">
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+			<div id="game">
+				<canvas id="canvas" height="600" width="600"></canvas>
+			</div>
+		</div>
+
+
+		<!-- <script>
+			var modal = document.getElementById("about");
+			var btn = document.getElementById("myBtn");
+			var span = document.getElementsByClassName("close")[0];
+			btn.onclick = function() {
+				modal.style.display = "block";
+			}
+			span.onclick = function() {
+				modal.style.display = "none";
+			}
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+			document.addEventListener('keydown', (event) => {
+  				if (event.key === 'Escape') {
+					modal.style.display = "none";
+				}
+			})
+		</script> -->
 	</body>
 </html>
