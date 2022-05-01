@@ -13,6 +13,9 @@ var inputRight = 39;
 var numberOfBalls = 50;
 var fiveColor, fifteenColor, twentyfiveColor;
 var goal;
+var timeForGame;
+var monstersRemain;
+var monsterNumber = 6;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -35,8 +38,43 @@ function rightUpdate(event){
 function returnText(){
 	context = canvas.getContext("2d");
 	numberOfBalls = document.getElementById("ball").value;
+	timeForGame = parseInt(document.getElementById("timeForGame").value);
+	monstersRemain = parseInt(document.getElementById("monster").value);
 	toggleDiv(document.getElementById('game').id);
+	timeLeft = timeForGame;
+	setTimeout(countdown, 1000);
 	Start();
+}
+
+function randomPick(){
+	// random for seconds
+	secondsRandom = Math.floor(Math.random() * (1001 - 60)) + 60;
+	document.getElementById("timeForGame").value = secondsRandom;
+	document.getElementById("timeForGame").nextElementSibling.value = secondsRandom;
+	// random for balls
+	ballsRandom = Math.floor(Math.random() * (91 - 50)) + 50;
+	document.getElementById("ball").value = ballsRandom;
+	document.getElementById("ball").nextElementSibling.value = ballsRandom;
+	// random for monsters
+	monstersRandom = Math.floor(Math.random() * (5 - 1)) + 1;
+	document.getElementById("monster").value = monstersRandom;
+	document.getElementById("monster").nextElementSibling.value = monstersRandom;
+	// random for colors
+	randomFiveColor = Math.floor(Math.random()*16777215).toString(16);
+	document.getElementById("fivecolorpicker").value = "#" + randomFiveColor;
+	randomFifteenColor = Math.floor(Math.random()*16777215).toString(16);
+	document.getElementById("fifteencolorpicker").value = "#" + randomFifteenColor;
+	randomTwentyfiveColor = Math.floor(Math.random()*16777215).toString(16);
+	document.getElementById("twentyfivecolorpicker").value = "#" + randomTwentyfiveColor;
+	// random keyboard
+	inputUp = 38;
+	inputDown = 40;
+	inputLeft = 37;
+	inputRight = 39;
+	document.getElementById("up").value = "up arrow";
+	document.getElementById("down").value = "down arrow";
+	document.getElementById("left").value = "left arrow";
+	document.getElementById("right").value = "right arrow";
 }
 
 function Start() {
@@ -51,7 +89,10 @@ function Start() {
 	goal = 5*fiveColor + 15*fifteenColor + 25*twentyfiveColor;
 	var colors = Array("1", "3", "5");
 	var pacman_remain = 1;
+	// var monstersRemain = 1;
 	start_time = new Date();
+	// start_time = (new Date()).setSeconds(timeForGame);
+	// start_time=timeForGame;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -147,6 +188,26 @@ function Start() {
 		}
 		food_remain--;
 	}
+	while (monstersRemain > 0) {
+		var emptyCell = findRandomEmptyCell(board);
+		if (monsterNumber === 6) {
+			board[emptyCell[0]][emptyCell[1]] = 6;
+			monsterNumber++;
+		} else if (monsterNumber === 7) {
+			board[emptyCell[0]][emptyCell[1]] = 7;
+			monsterNumber++;
+		} else if (monsterNumber === 8) {
+			board[emptyCell[0]][emptyCell[1]] = 8;
+			monsterNumber++;
+		} else if (monsterNumber === 9) {
+			board[emptyCell[0]][emptyCell[1]] = 9;
+			monsterNumber++;
+		} 
+		if (monstersRemain === 1) {
+			monsterNumber = 6;
+		}
+		monstersRemain--;
+	}
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -236,6 +297,22 @@ function Draw() {
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = document.getElementById("twentyfivecolorpicker").value; //color
 				context.fill();
+			} else if (board[i][j] == 6) {
+				var img = new Image();
+				img.src = "./pictures/monster1.jpg";
+				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
+			} else if (board[i][j] == 7) {
+				var img = new Image();
+				img.src = "./pictures/monster2.jpg";
+				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
+			} else if (board[i][j] == 8) {
+				var img = new Image();
+				img.src = "./pictures/monster3.jpg";
+				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
+			} else if (board[i][j] == 9) {
+				var img = new Image();
+				img.src = "./pictures/monster4.jpg";
+				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
 			} else if (board[i][j] == 4) {
 				context.beginPath();
 				context.rect(center.x - 30, center.y - 30, 60, 60);
@@ -291,3 +368,11 @@ function UpdatePosition() {
 		Draw();
 	}
 }
+
+function countdown() {
+	timeLeft--;
+	document.getElementById("seconds").innerHTML = String( timeLeft );
+	if (timeLeft > 0) {
+		setTimeout(countdown, 1000);
+	}
+};

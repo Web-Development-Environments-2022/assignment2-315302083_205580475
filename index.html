@@ -121,7 +121,13 @@
    				<input type="color" id="twentyfivecolorpicker" value="#000000">
 			</div>
 			<div>
+				<label for="vol"><b>Choose Number of seconds to game (between 60 and 1000): </b></label>
+				<input type="range" min="60" max="1000" placeholder="Enter Number of seconds to game" name="timeForGame" id="timeForGame" oninput="this.nextElementSibling.value = this.value">
+				<output>530</output>
+			</div>
+			<div>
 				<button onclick="returnText()">Change Settings</button>
+				<button onclick="randomPick()">Random Settings</button>
 			</div>
 		</div>
 
@@ -141,6 +147,9 @@
 			<div id="time">
 				<label for="lblTime">TIME:</label>
 				<input id="lblTime" type="text" />
+				<div id="clock">
+					<span id="seconds"></span>
+				</div>
 			</div>
 			<div id="game">
 				<canvas id="canvas" height="600" width="600"></canvas>
