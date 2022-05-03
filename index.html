@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./toggleDiv.js"></script>
 		<script type="text/javascript" src="./formValidation.js"></script>
+		<script type="text/javascript" src="./signupAndLogin.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
@@ -45,22 +46,22 @@
 					<p>Please fill in this form to create an account.</p>
 					<hr>
 					<label for="user"><b>User: </b></label>
-					<input type="text" placeholder="Enter User Name" name="user" id="user">
+					<input type="text" placeholder="Enter User Name" name="userSignup" id="userSignup">
 					<br/>
 					<label for="psw"><b>Password: </b></label>
-					<input type="password" placeholder="Enter Password" name="psw" id="psw">
+					<input type="password" placeholder="Enter Password" name="pswSignup" id="pswSignup">
 					<br/>
 					<label for="fName"><b>Full Name: </b></label>
-					<input type="text" placeholder="Enter Full Name" name="fName" id="fName">
+					<input type="text" placeholder="Enter Full Name" name="fNameSignup" id="fNameSignup">
 					<br/>
 					<label for="email"><b>Email: </b></label>
-					<input type="text" placeholder="Enter Email" name="email" id="email">
+					<input type="text" placeholder="Enter Email" name="emailSignup" id="emailSignup">
 					<br/>
 					<label for="birthday"><b>Birthday: </b></label>
-  					<input type="date" id="birthday" name="birthday">
+  					<input type="date" id="birthdaySignup" name="birthdaySignup">
 					<br/>
-					<div class="clearfix">
-						<button type="submit">Submit</button>
+					<div>
+						<button type="submit" onclick="signup()">Submit</button>
         				<button type="reset">Reset</button>
 					</div>
 				</div>
@@ -72,14 +73,14 @@
 			<form action="" method="post">
 				<div class="container">
 					<label for="user"><b>Username: </b></label>
-				  	<input type="text" placeholder="Enter User Name" name="user" id="user">
+				  	<input type="text" placeholder="Enter User Name" name="userLogin" id="userLogin">
 					<br/>
 				  	<label for="psw"><b>Password: </b></label>
-				  	<input type="password" placeholder="Enter Password" name="psw" id="psw">
+				  	<input type="password" placeholder="Enter Password" name="pswLogin" id="pswLogin">
 					<br/> 
 				</div>
-				<div class="container" style="background-color:#f1f1f1">
-					<button type="submit">Login</button>
+				<div class="container">
+					<button type="submit" onclick="login()">Login</button>
 					<button type="reset">Reset</button>
 				</div>
 			  </form>
@@ -139,10 +140,15 @@
 			</div>
 		</div>
 
+		<!-- game page -->
 		<div id="game" style="display:none">
 			<div id="score">
 				<label for="lblScore">SCORE:</label>
 				<input id="lblScore" type="text" />
+			</div>
+			<div id="strike">
+				<label for="lblStrike">STRIKES:</label>
+				<input id="lblStrike" type="text" />
 			</div>
 			<div id="time">
 				<label for="lblTime">TIME:</label>
@@ -151,8 +157,13 @@
 					<span id="seconds"></span>
 				</div>
 			</div>
-			<div id="game">
-				<canvas id="canvas" height="600" width="600"></canvas>
+			<div id="game" class="row">
+				<div class="column">
+					<canvas id="canvas" height="600" width="600"></canvas>
+				</div>
+				<div class="column">
+					fdsfdssdfdsf
+				</div>
 			</div>
 		</div>
 

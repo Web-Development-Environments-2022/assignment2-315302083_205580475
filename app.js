@@ -16,6 +16,14 @@ var goal;
 var timeForGame;
 var monstersRemain;
 var monsterNumber = 6;
+var strike;
+var monster1 = new Object();
+var monster2 = new Object();
+var monster3 = new Object();
+var monster4 = new Object();
+var monsterArray = [];
+var moveMonnster = ["up", "down", "left", "right"];
+var check = true;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -43,6 +51,7 @@ function returnText(){
 	toggleDiv(document.getElementById('game').id);
 	timeLeft = timeForGame;
 	setTimeout(countdown, 1000);
+	monsterArray = [];
 	Start();
 }
 
@@ -80,6 +89,7 @@ function randomPick(){
 function Start() {
 	board = new Array();
 	score = 0;
+	strike = 0;
 	pac_color = "yellow";
 	var cnt = 100;
 	var food_remain = numberOfBalls;
@@ -105,6 +115,38 @@ function Start() {
 				(i == 6 && j == 2)
 			) {
 				board[i][j] = 4;
+			} else if ((i == 0 && j == 0) && (monstersRemain > 0)) {
+				monster1.i = i;
+				monster1.j = j;
+				monster1.num = 6;
+				monster1.hasBall = 0;
+				monstersRemain--;
+				board[i][j] = 6;
+				monsterArray.push(monster1);
+			} else if ((i == 0 && j == 9) && (monstersRemain > 0)) {
+				monster2.i = i;
+				monster2.j = j;
+				monster2.num = 7;
+				monster2.hasBall = 0;
+				monstersRemain--;
+				board[i][j] = 7;
+				monsterArray.push(monster2);
+			} else if ((i == 9 && j == 0) && (monstersRemain > 0)) {
+				monster3.i = i;
+				monster3.j = j;
+				monster3.num = 8;
+				monster3.hasBall = 0;
+				monstersRemain--;
+				board[i][j] = 8;
+				monsterArray.push(monster3);
+			} else if ((i == 9 && j == 9) && (monstersRemain > 0)) {
+				monster4.i = i;
+				monster4.j = j;
+				monster4.num = 9;
+				monster4.hasBall = 0;
+				monstersRemain--;
+				board[i][j] = 9;
+				monsterArray.push(monster4);
 			} else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
@@ -188,26 +230,26 @@ function Start() {
 		}
 		food_remain--;
 	}
-	while (monstersRemain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
-		if (monsterNumber === 6) {
-			board[emptyCell[0]][emptyCell[1]] = 6;
-			monsterNumber++;
-		} else if (monsterNumber === 7) {
-			board[emptyCell[0]][emptyCell[1]] = 7;
-			monsterNumber++;
-		} else if (monsterNumber === 8) {
-			board[emptyCell[0]][emptyCell[1]] = 8;
-			monsterNumber++;
-		} else if (monsterNumber === 9) {
-			board[emptyCell[0]][emptyCell[1]] = 9;
-			monsterNumber++;
-		} 
-		if (monstersRemain === 1) {
-			monsterNumber = 6;
-		}
-		monstersRemain--;
-	}
+	// while (monstersRemain > 0) {
+	// 	var emptyCell = findRandomEmptyCell(board);
+	// 	if (monsterNumber === 6) {
+	// 		board[emptyCell[0]][emptyCell[1]] = 6;
+	// 		monsterNumber++;
+	// 	} else if (monsterNumber === 7) {
+	// 		board[emptyCell[0]][emptyCell[1]] = 7;
+	// 		monsterNumber++;
+	// 	} else if (monsterNumber === 8) {
+	// 		board[emptyCell[0]][emptyCell[1]] = 8;
+	// 		monsterNumber++;
+	// 	} else if (monsterNumber === 9) {
+	// 		board[emptyCell[0]][emptyCell[1]] = 9;
+	// 		monsterNumber++;
+	// 	} 
+	// 	if (monstersRemain === 1) {
+	// 		monsterNumber = 6;
+	// 	}
+	// 	monstersRemain--;
+	// }
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -267,6 +309,7 @@ function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
+	lblStrike.value = strike;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
@@ -327,23 +370,43 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) {
-		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
-			shape.j--;
+		if (!((board[shape.i][shape.j - 1] === 6) || (board[shape.i][shape.j - 1] === 7) || (board[shape.i][shape.j - 1] === 8) || (board[shape.i][shape.j - 1] === 9))){
+			if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+				shape.j--;
+			}
+		} else {
+			score-=10;
+			strike++;
 		}
 	}
 	if (x == 2) {
-		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
-			shape.j++;
+		if (!((board[shape.i][shape.j + 1] === 6) || (board[shape.i][shape.j + 1] === 7) || (board[shape.i][shape.j + 1] === 8) || (board[shape.i][shape.j + 1] === 9))){
+			if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+				shape.j++;
+			}
+		} else {
+			score-=10;
+			strike++;
 		}
 	}
 	if (x == 3) {
-		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
-			shape.i--;
+		if (!((board[shape.i - 1][shape.j] === 6) || (board[shape.i - 1][shape.j] === 7) || (board[shape.i - 1][shape.j] === 8) || (board[shape.i - 1][shape.j] === 9))){
+			if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+				shape.i--;
+			}
+		} else {
+			score-=10;
+			strike++;
 		}
 	}
 	if (x == 4) {
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
-			shape.i++;
+		if (!((board[shape.i + 1][shape.j] === 6) || (board[shape.i + 1][shape.j] === 7) || (board[shape.i + 1][shape.j] === 8) || (board[shape.i + 1][shape.j] === 9))){
+			if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+				shape.i++;
+			}
+		} else {
+			score-=10;
+			strike++;
 		}
 	}
 	if (board[shape.i][shape.j] == 1) {
@@ -356,12 +419,97 @@ function UpdatePosition() {
 		score += 25;
 	}
 	board[shape.i][shape.j] = 2;
+	for (var i = 0; i < monsterArray.length; i++) {
+		while (check) {
+			var randomMoveChoose = moveMonnster[Math.floor(Math.random()*moveMonnster.length)];
+			if (randomMoveChoose === "up") {
+				if (monsterArray[i].j > 0 && board[monsterArray[i].i][monsterArray[i].j - 1] != 4) {
+					if (monsterArray[i].hasBall !== 0) {
+						board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].hasBall;
+					} else {
+						board[monsterArray[i].i][monsterArray[i].j] = 0;
+					}
+					if (board[monsterArray[i].i][monsterArray[i].j-1] === 2) {
+						score-=10;
+						strike++;
+					} else if ((board[monsterArray[i].i][monsterArray[i].j-1] === 6) || (board[monsterArray[i].i][monsterArray[i].j-1] === 7)
+						|| (board[monsterArray[i].i][monsterArray[i].j-1] === 8) || (board[monsterArray[i].i][monsterArray[i].j-1] === 9))  {
+							
+					} else {
+						monsterArray[i].j--;
+						monsterArray[i].hasBall = board[monsterArray[i].i][monsterArray[i].j];
+					}
+					check = false;
+				}
+			} else if (randomMoveChoose === "down") {
+				if (monsterArray[i].j < 9 && board[monsterArray[i].i][monsterArray[i].j + 1] != 4) {
+					if (monsterArray[i].hasBall !== 0) {
+						board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].hasBall;
+					} else {
+						board[monsterArray[i].i][monsterArray[i].j] = 0;
+					}
+					if (board[monsterArray[i].i][monsterArray[i].j+1] === 2) {
+						score-=10;
+						strike++;
+					} else if ((board[monsterArray[i].i][monsterArray[i].j+1] === 6) || (board[monsterArray[i].i][monsterArray[i].j+1] === 7)
+						|| (board[monsterArray[i].i][monsterArray[i].j+1] === 8) || (board[monsterArray[i].i][monsterArray[i].j+1] === 9))  {
+						
+					} else {
+						monsterArray[i].j++;
+						monsterArray[i].hasBall = board[monsterArray[i].i][monsterArray[i].j];
+					}
+					check = false;
+				}
+			} else if (randomMoveChoose === "left") {
+				if (monsterArray[i].i > 0 && board[monsterArray[i].i - 1][monsterArray[i].j] != 4) {
+					if (monsterArray[i].hasBall !== 0) {
+						board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].hasBall;
+					} else {
+						board[monsterArray[i].i][monsterArray[i].j] = 0;
+					}
+					if (board[monsterArray[i].i-1][monsterArray[i].j] === 2) {
+						score-=10;
+						strike++;
+					} else if ((board[monsterArray[i].i-1][monsterArray[i].j] === 6) || (board[monsterArray[i].i-1][monsterArray[i].j] === 7)
+						|| (board[monsterArray[i].i-1][monsterArray[i].j] === 8) || (board[monsterArray[i].i-1][monsterArray[i].j] === 9))  {
+						
+					} else {
+						monsterArray[i].i--;
+						monsterArray[i].hasBall = board[monsterArray[i].i][monsterArray[i].j];
+					}
+					check = false;
+				}
+			} else if (randomMoveChoose === "right") {
+				if (monsterArray[i].i < 9 && board[monsterArray[i].i + 1][monsterArray[i].j] != 4) {
+					if (monsterArray[i].hasBall !== 0) {
+						board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].hasBall;
+					} else {
+						board[monsterArray[i].i][monsterArray[i].j] = 0;
+					}
+					if (board[monsterArray[i].i+1][monsterArray[i].j] === 2) {
+						score-=10;
+						strike++;
+					} else if ((board[monsterArray[i].i+1][monsterArray[i].j] === 6) || (board[monsterArray[i].i+1][monsterArray[i].j] === 7)
+						|| (board[monsterArray[i].i+1][monsterArray[i].j] === 8) || (board[monsterArray[i].i+1][monsterArray[i].j] === 9))  {
+						
+					} else {
+						monsterArray[i].i++;
+						monsterArray[i].hasBall = board[monsterArray[i].i][monsterArray[i].j];
+					}
+					check = false;
+				}
+			}
+		}
+		board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].num;
+		check = true;
+	}
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
 	if (score == goal) {
+		monsterArray = [];
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
