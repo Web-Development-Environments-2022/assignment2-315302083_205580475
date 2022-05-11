@@ -27,6 +27,7 @@ var moveMonnster = ["up", "down", "left", "right"];
 var check = true;
 var ballsGet = 0;
 var modal;
+var span;
 var timer;
 
 $(document).ready(function() {
@@ -696,6 +697,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		// window.alert("Winner!");
 		modal = document.getElementById("winner");
+		span = document.getElementsByClassName("close")[0];
 		modal.style.display = "block";
 		ballsGet = 0;
 	} else if (parseInt(document.getElementById("lblTime").value) === 0) {
@@ -706,6 +708,7 @@ function UpdatePosition() {
 		// window.alert("You are better then " + score + " points!");
 		document.getElementById("finalScore").innerHTML = score;
 		modal = document.getElementById("points");
+		span = document.getElementsByClassName("close")[0];
 		modal.style.display = "block";
 		ballsGet = 0;
 	} else if (strike > 5) {
@@ -715,6 +718,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		// window.alert("Loser!");
 		modal = document.getElementById("loser");
+		span = document.getElementsByClassName("close")[0];
 		modal.style.display = "block";
 		ballsGet = 0;
 	} else {
@@ -731,8 +735,7 @@ function countdown() {
 	}
 };
 
-var span = document.getElementsByClassName("close")[0];
-
+// var span = document.getElementsByClassName("close")[0];
 span.onclick = function() {
 	modal.style.display = "none";
 }

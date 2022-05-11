@@ -11,30 +11,41 @@
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 	</head>
 
-	<body>
-		<header id="menu">
-			<nav>
-			  <h3 class="toolBar" style="width: 99%;">
-				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('welcome').id);">Welcome | </a>
-				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('signup').id);">Sign up | </a>
-				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('login').id);">Login | </a>
-				<!-- <a href="javascript:;" onmousedown="toggleDiv(document.getElementById('settings').id);">Settings | </a> -->
-				<a href="javascript:;" id="myBtn">About</a>
-				<!-- <a href="javascript:;" onmousedown="toggleDiv(document.getElementById('game').id);">Game </a> -->
-			  </h3>
-			</nav>
+	<body style="background-image: url('./pictures/background.jpg');">
+		<header class="header">
+			＼⍩⃝／<br/>
+			Eyal Even-Tov<br/>
+			Roni Batanist<br/>
+			"You Going Down!"
 		</header>
+		<div class="topnav" id="myTopnav">
+			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('welcome').id);">Welcome</a>
+			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('signup').id);">Sign up</a>
+			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('login').id);">Login</a>
+			<a href="javascript:;" id="myBtn">About</a>
+			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+			  <i class="fa fa-bars"></i>
+			</a>
+		</div>
 
 		<!-- welcom page -->
 		<div id="welcome" style="display:block">
-			<div style="width: 50%;">
-				<button onclick="toggleDiv(document.getElementById('signup').id);">
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<div style="width: 50%; text-align: center;">
+				<button class="button" onclick="toggleDiv(document.getElementById('signup').id);">
 					Sign up
 				</button>
-				<button onclick="toggleDiv(document.getElementById('login').id);">
+				<button class="button" onclick="toggleDiv(document.getElementById('login').id);">
 					login
 				</button>
 			</div>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
 		</div>
 
 		<!-- sign up page -->
@@ -60,10 +71,11 @@
   					<input type="date" id="birthdaySignup" name="birthdaySignup">
 					<br/>
 					<div>
-						<button type="submit">Submit</button>
-        				<button type="reset">Reset</button>
+						<button class="button" type="submit">Submit</button>
+        				<button class="button" type="reset">Reset</button>
 					</div>
 				</div>
+				<br/>
 			  </form>
 		</div>
 
@@ -71,6 +83,9 @@
 		<div id="login" style="display:none">
 			<form action="" method="get" id="connection">
 				<div class="container">
+					<h1>Login</h1>
+					<p>Please fill in this form to login to your account.</p>
+					<hr>
 					<label for="user"><b>Username: </b></label>
 				  	<input type="text" placeholder="Enter User Name" name="userLogin" id="userLogin">
 					<br/>
@@ -79,15 +94,19 @@
 					<br/> 
 				</div>
 				<div class="container">
-					<button type="submit">Login</button>
-					<button type="reset">Reset</button>
+					<button class="button" type="submit">Login</button>
+					<button class="button" type="reset">Reset</button>
 				</div>
+				<br/>
 			  </form>
 		</div>
 
 		<!-- settings page -->
-		<div id="settings" style="display:none" >
+		<div id="settings" style="display:none;" >
 			<div>
+				<h1>Settings</h1>
+				<p>Please fill in this form to set your settings for the game.</p>
+				<hr>
 				<label><b>Up: </b></label>
 				<input type="text" placeholder="Enter Up Button" name="up" id="up" onkeypress="upUpdate(event)">
 				<label><b>Down: </b></label>
@@ -100,12 +119,12 @@
 			<br/>
 			<div>
 				<label for="vol"><b>Choose number of balls (between 50 and 90): </b></label>
-				<input type="range" min="50" max="90" placeholder="Enter Number of Balls" name="ball" id="ball" oninput="this.nextElementSibling.value = this.value">
+				<input type="range" min="50" max="90" placeholder="Enter Number of Balls" name="ball" id="ball" oninput="this.nextElementSibling.value = this.value" style="accent-color: black;">
 				<output>70</output>
 			</div>
 			<div>
 				<label for="vol"><b>Choose number of monsters (between 1 and 4): </b></label>
-				<input type="range" min="1" max="4" placeholder="Enter Number of Monsters" name="monster" id="monster" oninput="this.nextElementSibling.value = this.value">
+				<input type="range" min="1" max="4" placeholder="Enter Number of Monsters" name="monster" id="monster" oninput="this.nextElementSibling.value = this.value" style="accent-color: black;">
 				<output>3</output>
 			</div>
 			<div>
@@ -122,12 +141,12 @@
 			</div>
 			<div>
 				<label for="vol"><b>Choose Number of seconds to game (between 60 and 1000): </b></label>
-				<input type="range" min="60" max="1000" placeholder="Enter Number of seconds to game" name="timeForGame" id="timeForGame" oninput="this.nextElementSibling.value = this.value">
+				<input type="range" min="60" max="1000" placeholder="Enter Number of seconds to game" name="timeForGame" id="timeForGame" oninput="this.nextElementSibling.value = this.value" style="accent-color: black;">
 				<output>530</output>
 			</div>
 			<div>
-				<button onclick="returnText()">Change Settings</button>
-				<button onclick="randomPick()">Random Settings</button>
+				<button class="button" onclick="returnText()">Change Settings</button>
+				<button class="button" onclick="randomPick()">Random Settings</button>
 			</div>
 		</div>
 
@@ -178,7 +197,7 @@
 					<!-- <div id="clock" style="text-align: left;">
 						<span id="seconds"></span>
 					</div> -->
-					<canvas id="canvas" height="600" width="600"></canvas>
+					<canvas id="canvas" height="600" width="600" style="background-color: white;"></canvas>
 				</div>
 				<div class="column">
 					<div>
@@ -223,8 +242,8 @@
 						<p id="twentyfivecolorpickerShow" style="margin-left:50px">25 point color</p>
 					</div>
 					<div>
-						<button onclick="startNewGame()">Start New Game with same settings</button>
-						<button onclick="startNewGameWithNewSettingse()">Start New Game with different settings</button>
+						<button class="button" onclick="startNewGame()">Start New Game with same settings</button>
+						<button class="button" onclick="startNewGameWithNewSettingse()">Start New Game with different settings</button>
 					</div>
 				</div>
 			</div>
@@ -254,6 +273,12 @@
 			</div>
 		</div>
 
+		<footer>
+			<p>Authors: Eyal Even-Tov and Roni Batanist<br/><br/>
+			<a href="mailto:eyalev@post.bgu.ac.il">eyalev@post.bgu.ac.il</a></p>
+			<a href="mailto:batanist@post.bgu.ac.il">batanist@post.bgu.ac.il</a></p>
+		  </footer>
+
 
 		<script>
 			var modal = document.getElementById("about");
@@ -275,6 +300,14 @@
 					modal.style.display = "none";
 				}
 			})
+		</script>
+
+		<script>
+			window.addEventListener("keydown", function(e) {
+    			if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+    				e.preventDefault();
+    			}
+			}, false);
 		</script>
 	</body>
 </html>
