@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./toggleDiv.js"></script>
 		<script type="text/javascript" src="./formValidation.js"></script>
-		<script type="text/javascript" src="./signupAndLogin.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
@@ -19,9 +18,9 @@
 				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('welcome').id);">Welcome | </a>
 				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('signup').id);">Sign up | </a>
 				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('login').id);">Login | </a>
-				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('settings').id);">Settings | </a>
-				<a href="javascript:;" id="myBtn">About | </a>
-				<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('game').id);">Game </a>
+				<!-- <a href="javascript:;" onmousedown="toggleDiv(document.getElementById('settings').id);">Settings | </a> -->
+				<a href="javascript:;" id="myBtn">About</a>
+				<!-- <a href="javascript:;" onmousedown="toggleDiv(document.getElementById('game').id);">Game </a> -->
 			  </h3>
 			</nav>
 		</header>
@@ -61,7 +60,7 @@
   					<input type="date" id="birthdaySignup" name="birthdaySignup">
 					<br/>
 					<div>
-						<button type="submit" onclick="signup()">Submit</button>
+						<button type="submit">Submit</button>
         				<button type="reset">Reset</button>
 					</div>
 				</div>
@@ -70,7 +69,7 @@
 
 		<!-- login page -->
 		<div id="login" style="display:none">
-			<form action="" method="post">
+			<form action="" method="get" id="connection">
 				<div class="container">
 					<label for="user"><b>Username: </b></label>
 				  	<input type="text" placeholder="Enter User Name" name="userLogin" id="userLogin">
@@ -80,7 +79,7 @@
 					<br/> 
 				</div>
 				<div class="container">
-					<button type="submit" onclick="login()">Login</button>
+					<button type="submit">Login</button>
 					<button type="reset">Reset</button>
 				</div>
 			  </form>
@@ -110,15 +109,15 @@
 				<output>3</output>
 			</div>
 			<div>
-				<label for="colorpicker">Pick First Color(5 points): </label>
+				<label for="colorpicker"><b>Pick First Color(5 points): </b></label>
    				<input type="color" id="fivecolorpicker" value="#000000">
 			</div>
 			<div>
-				<label for="colorpicker">Pick Second Color(15 points): </label>
+				<label for="colorpicker"><b>Pick Second Color(15 points): </b></label>
    				<input type="color" id="fifteencolorpicker" value="#000000">
 			</div>
 			<div>
-				<label for="colorpicker">Pick Third Color(25 points): </label>
+				<label for="colorpicker"><b>Pick Third Color(25 points): </b></label>
    				<input type="color" id="twentyfivecolorpicker" value="#000000">
 			</div>
 			<div>
@@ -136,39 +135,127 @@
 		<div id="about" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
-				<p>Some text in the Modal..</p>
+				<p>Eyal Even-Tov</p>
+				<p>Roni Batanist</p>
+				<p>
+					We used jquery to validate the sign up and login fileds.<br/>
+					We didn't use another template.
+				</p>
+				<p>
+					Our difficulties were:<br/>
+					1. To style in a beutiful way the site<br/>
+					2. To reset the timer of the game.<br/>
+					3. To activate the music at the right times.<br/>
+					4. To make a random distribution of the balls.
+				</p>
 			</div>
 		</div>
 
 		<!-- game page -->
 		<div id="game" style="display:none">
-			<div id="score">
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
-			</div>
-			<div id="strike">
-				<label for="lblStrike">STRIKES:</label>
-				<input id="lblStrike" type="text" />
-			</div>
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-				<div id="clock">
-					<span id="seconds"></span>
-				</div>
-			</div>
+			<!-- <embed id="backgroundMusic" src="./music/background.mp3" loop="true" width="2" height="0"> -->
+			<audio src="./music/background.mp3" id="backgroundMusic" autoplay></audio>
+			<audio src="./music/winner.mp3" id="winnerMusic" autoplay></audio>
+			<audio src="./music/crowdboo.wav" id="crowdbooMusic" autoplay></audio>
 			<div id="game" class="row">
 				<div class="column">
+					<div id="score" class="cellContainerGame">
+						<label for="lblScore">SCORE:</label>
+						<input id="lblScore" type="text" />
+					</div>
+					<div id="strike" class="cellContainerGame">
+						<label for="lblStrike">STRIKES:</label>
+						<input id="lblStrike" type="text" />
+					</div>
+					<div id="time" class="cellContainerGame">
+						<label for="lblTime">TIME:</label>
+						<input id="lblTime" type="text" />
+					</div>
+					<div id="time" class="cellContainerGame">
+						<label for="lbluser">Player Name:</label>
+						<input id="lbluser" type="text" />
+					</div>
+					<!-- <div id="clock" style="text-align: left;">
+						<span id="seconds"></span>
+					</div> -->
 					<canvas id="canvas" height="600" width="600"></canvas>
 				</div>
 				<div class="column">
-					fdsfdssdfdsf
+					<div>
+						<label><b>Up key: </b><label id="upShow"></label></label>
+						<br/>
+						<br/>
+						<label><b>Down key: </b><label id="downShow"></label></label>
+						<br/>
+						<br/>
+						<label><b>Left key: </b><label id="leftShow"></label></label>
+						<br/>
+						<br/>
+						<label><b>Right key: </b><label id="rightShow"></label></label>
+						<br/>
+						<br/>
+					</div>
+					<div>
+						<label for="vol"><b>Number of balls: </b><label id="ballShow"></label></label>
+						<br/>
+						<br/>
+					</div>
+					<div>
+						<label for="vol"><b>Number of monsters: </b><label id="monsterShow"></label></label>
+						<br/>
+						<br/>
+					</div>
+					<div>
+						<label for="vol"><b>Number of seconds to game: </b><label id="timeForGameShow"></label></label>
+						<br/>
+						<br/>
+					</div>
+					<div class="cellContainerSettings">
+						<label for="colorpicker"><b>First Color(5 points): </b></label>
+						<p id="fivecolorpickerShow">5 point color</p>
+					</div>
+					<div class="cellContainerSettings">
+						<label for="colorpicker"><b>Second Color(15 points): </b></label>
+						<p id="fifteencolorpickerShow">15 point color</p>
+					</div>
+					<div class="cellContainerSettings">
+						<label for="colorpicker"><b>Third Color(25 points): </b></label>
+						<p id="twentyfivecolorpickerShow" style="margin-left:50px">25 point color</p>
+					</div>
+					<div>
+						<button onclick="startNewGame()">Start New Game with same settings</button>
+						<button onclick="startNewGameWithNewSettingse()">Start New Game with different settings</button>
+					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- winner modal -->
+		<div id="winner" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<p>WINNER WINNER WINNER</p>
+			</div>
+		</div>
 
-		<!-- <script>
+		<!-- loser modal -->
+		<div id="loser" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<p>LOSER LOSER LOSER</p>
+			</div>
+		</div>
+
+		<!-- points modal -->
+		<div id="points" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<p>You are better then <label id="finalScore"></label> points!</p>
+			</div>
+		</div>
+
+
+		<script>
 			var modal = document.getElementById("about");
 			var btn = document.getElementById("myBtn");
 			var span = document.getElementsByClassName("close")[0];
@@ -188,6 +275,6 @@
 					modal.style.display = "none";
 				}
 			})
-		</script> -->
+		</script>
 	</body>
 </html>

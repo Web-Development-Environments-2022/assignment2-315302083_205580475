@@ -51,3 +51,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	display: table;
 	text-align: center;
 }
+
+.cellContainerSettings {
+  width: 33%;
+  float: left;
+}
+
+.cellContainerGame {
+  width: 25%;
+  float: left;
+}
