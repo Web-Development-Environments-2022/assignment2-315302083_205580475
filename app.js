@@ -29,6 +29,9 @@ var ballsGet = 0;
 var timer;
 
 $(document).ready(function() {
+	document.getElementById("backgroundMusic").pause();
+	document.getElementById("winnerMusic").pause();
+	document.getElementById("crowdbooMusic").pause();
 	if (localStorage.getItem("k") === null) {
 		var username = "k";
 		var password = "k";
