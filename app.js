@@ -143,7 +143,7 @@ function Start() {
 	fiveColor = parseInt(0.6*numberOfBalls);
 	fifteenColor = parseInt(0.3*numberOfBalls);
 	twentyfiveColor = parseInt(0.1*numberOfBalls);
-	goal = 5*fiveColor + 15*fifteenColor + 25*twentyfiveColor;
+	goal = fiveColor + fifteenColor + twentyfiveColor;
 	var colors = Array("1", "3", "5");
 	var pacman_remain = 1;
 	start_time = new Date();
@@ -303,6 +303,7 @@ function Start() {
 		},
 		false
 	);
+	
 	addEventListener(
 		"keyup",
 		function(e) {
@@ -448,76 +449,96 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) {
-		if (!((board[shape.i][shape.j - 1] === 6) || (board[shape.i][shape.j - 1] === 7) || (board[shape.i][shape.j - 1] === 8) || (board[shape.i][shape.j - 1] === 9))){
-			if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+			if (!((board[shape.i][shape.j - 1] === 6) || (board[shape.i][shape.j - 1] === 7) || (board[shape.i][shape.j - 1] === 8) || (board[shape.i][shape.j - 1] === 9))){
+
 				shape.j--;
 				shape.direction = "up";
 			}
-		} else {
-			score-=10;
-			strike++;
-			board[shape.i][shape.j] = 0;
-			shape.i = shape.firsti;
-			shape.j = shape.firstj;
-		}
+		 	else {
+				score-=10;
+				strike++;
+				board[shape.i][shape.j] = 0;
+				shape.i = shape.firsti;
+				shape.j = shape.firstj;
+		}}
 	}
 	if (x == 2) {
-		if (!((board[shape.i][shape.j + 1] === 6) || (board[shape.i][shape.j + 1] === 7) || (board[shape.i][shape.j + 1] === 8) || (board[shape.i][shape.j + 1] === 9))){
-			if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+			if (!((board[shape.i][shape.j + 1] === 6) || (board[shape.i][shape.j + 1] === 7) || (board[shape.i][shape.j + 1] === 8) || (board[shape.i][shape.j + 1] === 9))){
+
 				shape.j++;
 				shape.direction = "down";
 			}
-		} else {
+		  else {
 			score-=10;
 			strike++;
 			board[shape.i][shape.j] = 0;
 			shape.i = shape.firsti;
 			shape.j = shape.firstj;
-		}
+		}}
 	}
 	if (x == 3) {
-		if (!((board[shape.i - 1][shape.j] === 6) || (board[shape.i - 1][shape.j] === 7) || (board[shape.i - 1][shape.j] === 8) || (board[shape.i - 1][shape.j] === 9))){
-			if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+			if (!((board[shape.i - 1][shape.j] === 6) || (board[shape.i - 1][shape.j] === 7) || (board[shape.i - 1][shape.j] === 8) || (board[shape.i - 1][shape.j] === 9))){
+
 				shape.i--;
 				shape.direction = "left";
 			}
-		} else {
+		   else {
 			score-=10;
 			strike++;
 			board[shape.i][shape.j] = 0;
 			shape.i = shape.firsti;
 			shape.j = shape.firstj;
-		}
+		}}
 	}
 	if (x == 4) {
-		if (!((board[shape.i + 1][shape.j] === 6) || (board[shape.i + 1][shape.j] === 7) || (board[shape.i + 1][shape.j] === 8) || (board[shape.i + 1][shape.j] === 9))){
-			if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		 	if (!((board[shape.i + 1][shape.j] === 6) || (board[shape.i + 1][shape.j] === 7) || (board[shape.i + 1][shape.j] === 8) || (board[shape.i + 1][shape.j] === 9))){
+
 				shape.i++;
 				shape.direction = "right";
 			}
-		} else {
+		   else {
 			score-=10;
 			strike++;
 			board[shape.i][shape.j] = 0;
 			shape.i = shape.firsti;
 			shape.j = shape.firstj;
-		}
+		}}
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score += 5;
 		ballsGet++;
+		goal--;
 	}
 	else if (board[shape.i][shape.j] == 3) {
 		score += 15;
 		ballsGet++;
+		goal--;
 	}
 	else if (board[shape.i][shape.j] == 5) {
 		score += 25;
 		ballsGet++;
+		goal--;
 	}
 	else if (board[shape.i][shape.j] == 10) {
+		if(monsterArray[0].hasBall!=0){
+			goal--;
+			if(monsterArray[0].hasBall===1){
+				score += 5;
+			}
+			else if(monsterArray[0].hasBall===3){
+				score += 15;
+			}
+			else {
+				score += 25;
+			}
+		}
 		score += 50;
 		monsterArray.shift();
+		
 	}
 	else if (board[shape.i][shape.j] == 11) {
 		timeLeft = timeLeft + 10;
@@ -542,7 +563,7 @@ function UpdatePosition() {
 					if ((board[monsterArray[i].i][monsterArray[i].j-1] === 2) && (monsterArray[i].num === 10)) {
 						score+=50;
 						monsterArray.shift();
-						i--;
+						i=0;
 					} else if (board[monsterArray[i].i][monsterArray[i].j-1] === 2) {
 						score-=10;
 						strike++;
@@ -568,7 +589,7 @@ function UpdatePosition() {
 					if ((board[monsterArray[i].i][monsterArray[i].j+1] === 2) && (monsterArray[i].num === 10)) {
 						score+=50;
 						monsterArray.shift();
-						i--;
+						i=0;
 					} else if (board[monsterArray[i].i][monsterArray[i].j+1] === 2) {
 						score-=10;
 						strike++;
@@ -594,7 +615,7 @@ function UpdatePosition() {
 					if ((board[monsterArray[i].i-1][monsterArray[i].j] === 2) && (monsterArray[i].num === 10)) {
 						score+=50;
 						monsterArray.shift();
-						i--;
+						i=0;
 					} else if (board[monsterArray[i].i-1][monsterArray[i].j] === 2) {
 						score-=10;
 						strike++;
@@ -620,7 +641,7 @@ function UpdatePosition() {
 					if ((board[monsterArray[i].i+1][monsterArray[i].j] === 2) && (monsterArray[i].num === 10)) {
 						score+=50;
 						monsterArray.shift();
-						i--;
+						i=0;
 					} else if (board[monsterArray[i].i+1][monsterArray[i].j] === 2) {
 						score-=10;
 						strike++;
@@ -644,7 +665,8 @@ function UpdatePosition() {
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	if (ballsGet === parseInt(document.getElementById("ball").value)) {
+	if(goal===0){
+		Draw();
 		document.getElementById("backgroundMusic").pause();
 		document.getElementById("winnerMusic").play();
 		window.clearInterval(interval);
@@ -669,6 +691,7 @@ function UpdatePosition() {
 		var span = document.getElementsByClassName("close2")[0];
 		gameModal(modal, span);
 		ballsGet = 0;
+		
 	} else {
 		Draw();
 	}
