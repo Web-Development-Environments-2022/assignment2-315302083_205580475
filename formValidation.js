@@ -1,5 +1,6 @@
 var userInside = "";
 
+// validation for registraion
 $(function() {
     // Initialize form validation on the registration form.
     // It has the name attribute "registration"
@@ -49,7 +50,6 @@ $(function() {
       // Make sure the form is submitted to the destination defined
       // in the "action" attribute of the form when valid
       submitHandler: function(form) {
-        // form.submit();
         var username = document.getElementById("userSignup").value;
         var password = document.getElementById("pswSignup").value;
         var fullname = document.getElementById("fNameSignup").value;
@@ -57,7 +57,6 @@ $(function() {
         var birthDate = document.getElementById("birthdaySignup").value;
         var array = [password, fullname, email, birthDate];
         localStorage.setItem(username, JSON.stringify(array));
-        // sessionStorage.setItem(username, JSON.stringify(array));
         alert("You've successfully registered!");
         toggleDiv(document.getElementById('login').id);
       }
@@ -80,6 +79,7 @@ $(function() {
     });
 });
 
+// validation for login
 $(function() {
   // Initialize form validation on the registration form.
   // It has the name attribute "registration"
@@ -100,11 +100,9 @@ $(function() {
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid
     submitHandler: function(form) {
-      // form.submit();
       var usernameGiven = document.getElementById("userLogin").value;
       var passwordGiven = document.getElementById("pswLogin").value;
       var passwordToSearch = localStorage.getItem(usernameGiven);
-      // var passwordToSearch = sessionStorage.getItem(usernameGiven);
       passwordToSearch = JSON.parse(passwordToSearch);
       if (passwordToSearch === null) {
           alert("User dosen't exist!");

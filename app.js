@@ -26,13 +26,9 @@ var monsterArray = [];
 var moveMonnster = ["up", "down", "left", "right"];
 var check = true;
 var ballsGet = 0;
-var modal;
-var span;
 var timer;
 
 $(document).ready(function() {
-// 	context = canvas.getContext("2d");
-// 	Start();
 	if (localStorage.getItem("k") === null) {
 		var username = "k";
 		var password = "k";
@@ -68,8 +64,6 @@ function returnText(){
 	document.getElementById("lbluser").value = userInside;
 	timer = setTimeout(countdown, 1000);
 	monsterArray = [];
-	// display settings at game screen
-	// document.getElementById("timeForGameShow").innerHTML = document.getElementById("timeForGame").value;
 	document.getElementById("ballShow").innerHTML = document.getElementById("ball").value;
 	document.getElementById("monsterShow").innerHTML = document.getElementById("monster").value;
 	document.getElementById("fivecolorpickerShow").style = "background-color: " + document.getElementById("fivecolorpicker").value;
@@ -152,10 +146,7 @@ function Start() {
 	goal = 5*fiveColor + 15*fifteenColor + 25*twentyfiveColor;
 	var colors = Array("1", "3", "5");
 	var pacman_remain = 1;
-	// var monstersRemain = 1;
 	start_time = new Date();
-	// start_time = (new Date()).setSeconds(timeForGame);
-	// start_time=timeForGame;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -168,45 +159,6 @@ function Start() {
 				(i == 6 && j == 2)
 			) {
 				board[i][j] = 4;
-			// } else if ((i == 4 && j == 4)) {
-			// 	specialMonster.i = i;
-			// 	specialMonster.j = j;
-			// 	specialMonster.num = 10;
-			// 	specialMonster.hasBall = 0;
-			// 	board[i][j] = 10;
-			// 	monsterArray.push(specialMonster);
-			// } else if ((i == 0 && j == 0) && (monstersRemain > 0)) {
-			// 	monster1.i = i;
-			// 	monster1.j = j;
-			// 	monster1.num = 6;
-			// 	monster1.hasBall = 0;
-			// 	monstersRemain--;
-			// 	board[i][j] = 6;
-			// 	monsterArray.push(monster1);
-			// } else if ((i == 0 && j == 9) && (monstersRemain > 0)) {
-			// 	monster2.i = i;
-			// 	monster2.j = j;
-			// 	monster2.num = 7;
-			// 	monster2.hasBall = 0;
-			// 	monstersRemain--;
-			// 	board[i][j] = 7;
-			// 	monsterArray.push(monster2);
-			// } else if ((i == 9 && j == 0) && (monstersRemain > 0)) {
-			// 	monster3.i = i;
-			// 	monster3.j = j;
-			// 	monster3.num = 8;
-			// 	monster3.hasBall = 0;
-			// 	monstersRemain--;
-			// 	board[i][j] = 8;
-			// 	monsterArray.push(monster3);
-			// } else if ((i == 9 && j == 9) && (monstersRemain > 0)) {
-			// 	monster4.i = i;
-			// 	monster4.j = j;
-			// 	monster4.num = 9;
-			// 	monster4.hasBall = 0;
-			// 	monstersRemain--;
-			// 	board[i][j] = 9;
-			// 	monsterArray.push(monster4);
 			} else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
@@ -246,6 +198,8 @@ function Start() {
 					shape.i = i;
 					shape.j = j;
 					shape.direction = "right";
+					shape.firsti = i;
+					shape.firstj = j;
 					pacman_remain--;
 					board[i][j] = 2;
 				} else {
@@ -258,7 +212,6 @@ function Start() {
 	while (food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		var randomColor = colors[Math.floor(Math.random()*colors.length)]
-		// board[emptyCell[0]][emptyCell[1]] = 1;
 		if(randomColor === "1" && fiveColor > 0) {
 			board[emptyCell[0]][emptyCell[1]] = 1;
 			fiveColor--;
@@ -383,24 +336,11 @@ function GetKeyPressed() {
 	if (keysDown[inputRight]) {
 		return 4;
 	}
-	// if (keysDown[38]) {
-	// 	return 1;
-	// }
-	// if (keysDown[40]) {
-	// 	return 2;
-	// }
-	// if (keysDown[37]) {
-	// 	return 3;
-	// }
-	// if (keysDown[39]) {
-	// 	return 4;
-	// }
 }
 
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	// lblTime.value = time_elapsed;
 	lblStrike.value = strike;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
@@ -479,10 +419,9 @@ function Draw() {
 				img.src = "./pictures/monster4.jpg";
 				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
 			} else if (board[i][j] == 4) {
-				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
-				context.fillStyle = "grey"; //color
-				context.fill();
+				var img = new Image();
+				img.src = "./pictures/wall.jpg";
+				context.drawImage(img, center.x - 30, center.y - 30, 60, 60);
 			} else if (board[i][j] == 10) {
 				var img = new Image();
 				img.src = "./pictures/plankton.jpeg";
@@ -517,6 +456,9 @@ function UpdatePosition() {
 		} else {
 			score-=10;
 			strike++;
+			board[shape.i][shape.j] = 0;
+			shape.i = shape.firsti;
+			shape.j = shape.firstj;
 		}
 	}
 	if (x == 2) {
@@ -528,6 +470,9 @@ function UpdatePosition() {
 		} else {
 			score-=10;
 			strike++;
+			board[shape.i][shape.j] = 0;
+			shape.i = shape.firsti;
+			shape.j = shape.firstj;
 		}
 	}
 	if (x == 3) {
@@ -539,6 +484,9 @@ function UpdatePosition() {
 		} else {
 			score-=10;
 			strike++;
+			board[shape.i][shape.j] = 0;
+			shape.i = shape.firsti;
+			shape.j = shape.firstj;
 		}
 	}
 	if (x == 4) {
@@ -550,6 +498,9 @@ function UpdatePosition() {
 		} else {
 			score-=10;
 			strike++;
+			board[shape.i][shape.j] = 0;
+			shape.i = shape.firsti;
+			shape.j = shape.firstj;
 		}
 	}
 	if (board[shape.i][shape.j] == 1) {
@@ -595,6 +546,9 @@ function UpdatePosition() {
 					} else if (board[monsterArray[i].i][monsterArray[i].j-1] === 2) {
 						score-=10;
 						strike++;
+						board[shape.i][shape.j] = 0;
+						shape.i = shape.firsti;
+						shape.j = shape.firstj;
 					} else if ((board[monsterArray[i].i][monsterArray[i].j-1] === 6) || (board[monsterArray[i].i][monsterArray[i].j-1] === 7)
 						|| (board[monsterArray[i].i][monsterArray[i].j-1] === 8) || (board[monsterArray[i].i][monsterArray[i].j-1] === 9) || (board[monsterArray[i].i][monsterArray[i].j-1] === 10))  {
 							
@@ -618,6 +572,9 @@ function UpdatePosition() {
 					} else if (board[monsterArray[i].i][monsterArray[i].j+1] === 2) {
 						score-=10;
 						strike++;
+						board[shape.i][shape.j] = 0;
+						shape.i = shape.firsti;
+						shape.j = shape.firstj;
 					} else if ((board[monsterArray[i].i][monsterArray[i].j+1] === 6) || (board[monsterArray[i].i][monsterArray[i].j+1] === 7)
 						|| (board[monsterArray[i].i][monsterArray[i].j+1] === 8) || (board[monsterArray[i].i][monsterArray[i].j+1] === 9) || (board[monsterArray[i].i][monsterArray[i].j+1] === 10))  {
 						
@@ -641,6 +598,9 @@ function UpdatePosition() {
 					} else if (board[monsterArray[i].i-1][monsterArray[i].j] === 2) {
 						score-=10;
 						strike++;
+						board[shape.i][shape.j] = 0;
+						shape.i = shape.firsti;
+						shape.j = shape.firstj;
 					} else if ((board[monsterArray[i].i-1][monsterArray[i].j] === 6) || (board[monsterArray[i].i-1][monsterArray[i].j] === 7)
 						|| (board[monsterArray[i].i-1][monsterArray[i].j] === 8) || (board[monsterArray[i].i-1][monsterArray[i].j] === 9) || (board[monsterArray[i].i-1][monsterArray[i].j] === 10))  {
 						
@@ -664,6 +624,9 @@ function UpdatePosition() {
 					} else if (board[monsterArray[i].i+1][monsterArray[i].j] === 2) {
 						score-=10;
 						strike++;
+						board[shape.i][shape.j] = 0;
+						shape.i = shape.firsti;
+						shape.j = shape.firstj;
 					} else if ((board[monsterArray[i].i+1][monsterArray[i].j] === 6) || (board[monsterArray[i].i+1][monsterArray[i].j] === 7)
 						|| (board[monsterArray[i].i+1][monsterArray[i].j] === 8) || (board[monsterArray[i].i+1][monsterArray[i].j] === 9) || (board[monsterArray[i].i+1][monsterArray[i].j] === 10))  {
 						
@@ -678,48 +641,33 @@ function UpdatePosition() {
 		board[monsterArray[i].i][monsterArray[i].j] = monsterArray[i].num;
 		check = true;
 	}
-	var currentTime = new Date();
-	// time_elapsed = (currentTime - start_time) / 1000;
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	// if (score === goal) {
-	// 	// monsterArray = [];
-	// 	document.getElementById("backgroundMusic").pause();
-	// 	document.getElementById("winnerMusic").play();
-	// 	window.clearInterval(interval);
-	// 	window.alert("Winner!");
-	// 	// ballsGet = 0;
 	if (ballsGet === parseInt(document.getElementById("ball").value)) {
-		// monsterArray = [];
 		document.getElementById("backgroundMusic").pause();
 		document.getElementById("winnerMusic").play();
 		window.clearInterval(interval);
-		// window.alert("Winner!");
-		modal = document.getElementById("winner");
-		span = document.getElementsByClassName("close")[0];
-		modal.style.display = "block";
+		var modal = document.getElementById("winner");
+		var span = document.getElementsByClassName("close1")[0];
+		gameModal(modal, span);
 		ballsGet = 0;
 	} else if (parseInt(document.getElementById("lblTime").value) === 0) {
-		// monsterArray = [];
 		document.getElementById("backgroundMusic").pause();
 		document.getElementById("crowdbooMusic").play();
 		window.clearInterval(interval);
-		// window.alert("You are better then " + score + " points!");
 		document.getElementById("finalScore").innerHTML = score;
-		modal = document.getElementById("points");
-		span = document.getElementsByClassName("close")[0];
-		modal.style.display = "block";
+		var modal = document.getElementById("points");
+		var span = document.getElementsByClassName("close3")[0];
+		gameModal(modal, span);
 		ballsGet = 0;
 	} else if (strike > 5) {
-		// monsterArray = [];
 		document.getElementById("backgroundMusic").pause();
 		document.getElementById("crowdbooMusic").play();
 		window.clearInterval(interval);
-		// window.alert("Loser!");
-		modal = document.getElementById("loser");
-		span = document.getElementsByClassName("close")[0];
-		modal.style.display = "block";
+		var modal = document.getElementById("loser");
+		var span = document.getElementsByClassName("close2")[0];
+		gameModal(modal, span);
 		ballsGet = 0;
 	} else {
 		Draw();
@@ -728,24 +676,25 @@ function UpdatePosition() {
 
 function countdown() {
 	timeLeft--;
-	// document.getElementById("seconds").innerHTML = String( timeLeft );
 	document.getElementById("lblTime").value = String( timeLeft );
 	if (timeLeft > 0) {
 		timer = setTimeout(countdown, 1000);
 	}
 };
 
-// var span = document.getElementsByClassName("close")[0];
-span.onclick = function() {
-	modal.style.display = "none";
-}
-window.onclick = function(event) {
-	if (event.target == modal) {
+function gameModal(modal, span) {
+	modal.style.display = "block";
+	span.onclick = function() {
 		modal.style.display = "none";
 	}
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') {
+		  modal.style.display = "none";
+	  }
+	})
 }
-document.addEventListener('keydown', (event) => {
-	if (event.key === 'Escape') {
-	  modal.style.display = "none";
-  }
-})

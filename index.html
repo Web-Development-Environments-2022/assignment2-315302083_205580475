@@ -22,7 +22,7 @@
 			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('welcome').id);">Welcome</a>
 			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('signup').id);">Sign up</a>
 			<a href="javascript:;" onmousedown="toggleDiv(document.getElementById('login').id);">Login</a>
-			<a href="javascript:;" id="myBtn">About</a>
+			<a href="javascript:;" id="myBtn" onclick="gameModal(document.getElementById('about'), document.getElementsByClassName('close')[0])">About</a>
 			<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 			  <i class="fa fa-bars"></i>
 			</a>
@@ -145,7 +145,7 @@
 				<output>530</output>
 			</div>
 			<div>
-				<button class="button" onclick="returnText()">Change Settings</button>
+				<button class="button" onclick="returnText()">Start New Game</button>
 				<button class="button" onclick="randomPick()">Random Settings</button>
 			</div>
 		</div>
@@ -172,7 +172,6 @@
 
 		<!-- game page -->
 		<div id="game" style="display:none">
-			<!-- <embed id="backgroundMusic" src="./music/background.mp3" loop="true" width="2" height="0"> -->
 			<audio src="./music/background.mp3" id="backgroundMusic" autoplay></audio>
 			<audio src="./music/winner.mp3" id="winnerMusic" autoplay></audio>
 			<audio src="./music/crowdboo.wav" id="crowdbooMusic" autoplay></audio>
@@ -194,9 +193,6 @@
 						<label for="lbluser">Player Name:</label>
 						<input id="lbluser" type="text" />
 					</div>
-					<!-- <div id="clock" style="text-align: left;">
-						<span id="seconds"></span>
-					</div> -->
 					<canvas id="canvas" height="600" width="600" style="background-color: white;"></canvas>
 				</div>
 				<div class="column">
@@ -252,7 +248,7 @@
 		<!-- winner modal -->
 		<div id="winner" class="modal">
 			<div class="modal-content">
-				<span class="close">&times;</span>
+				<span class="close1">&times;</span>
 				<p>WINNER WINNER WINNER</p>
 			</div>
 		</div>
@@ -260,7 +256,7 @@
 		<!-- loser modal -->
 		<div id="loser" class="modal">
 			<div class="modal-content">
-				<span class="close">&times;</span>
+				<span class="close2">&times;</span>
 				<p>LOSER LOSER LOSER</p>
 			</div>
 		</div>
@@ -268,7 +264,7 @@
 		<!-- points modal -->
 		<div id="points" class="modal">
 			<div class="modal-content">
-				<span class="close">&times;</span>
+				<span class="close3">&times;</span>
 				<p>You are better then <label id="finalScore"></label> points!</p>
 			</div>
 		</div>
@@ -278,29 +274,6 @@
 			<a href="mailto:eyalev@post.bgu.ac.il">eyalev@post.bgu.ac.il</a></p>
 			<a href="mailto:batanist@post.bgu.ac.il">batanist@post.bgu.ac.il</a></p>
 		  </footer>
-
-
-		<script>
-			var modal = document.getElementById("about");
-			var btn = document.getElementById("myBtn");
-			var span = document.getElementsByClassName("close")[0];
-			btn.onclick = function() {
-				modal.style.display = "block";
-			}
-			span.onclick = function() {
-				modal.style.display = "none";
-			}
-			window.onclick = function(event) {
-				if (event.target == modal) {
-					modal.style.display = "none";
-				}
-			}
-			document.addEventListener('keydown', (event) => {
-  				if (event.key === 'Escape') {
-					modal.style.display = "none";
-				}
-			})
-		</script>
 
 		<script>
 			window.addEventListener("keydown", function(e) {

@@ -1,21 +1,19 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 
-/* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #fefefe;
   margin: auto;
@@ -24,8 +22,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   width: 80%;
 }
 
-/* The Close Button */
-.close {
+.close, .close1, .close2, .close3 {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
@@ -33,7 +30,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 .close:hover,
-.close:focus {
+.close:focus, .close1:hover,
+.close1:focus, .close2:hover,
+.close2:focus, .close3:hover,
+.close3:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -130,7 +130,7 @@ footer {
 }
 
 .button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 20px;
